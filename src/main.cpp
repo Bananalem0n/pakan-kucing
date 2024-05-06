@@ -1,7 +1,7 @@
 #define BLYNK_PRINT Serial
 #define BLYNK_TEMPLATE_ID "TMPL670vbMUX0"
 #define BLYNK_TEMPLATE_NAME "pakan kucing"
-#define BLYNK_AUTH_TOKEN "9ManuX5fBpmheqdf_3M-LaVZyGyoe4DM"
+#define BLYNK_AUTH_TOKEN ""
 
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
