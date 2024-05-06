@@ -14,7 +14,7 @@ char pass[] = "12345678";       // password wifi
 Servo servo;
 int pinServo = 2;
 int pos = 0;
-int maxAngle = 90;
+int maxAngle = 360;
 
 BLYNK_WRITE(V1)
 {
@@ -22,23 +22,16 @@ BLYNK_WRITE(V1)
   Serial.println(pinValue1);
   if (pinValue1 == 0)
   {
+    servo.detach();
+  }
+  else if (pinValue1 == 1)
+  {
     servo.attach(pinServo);
     for (pos = 0; pos <= maxAngle; pos++)
     {
       servo.write(pos);
       delay(10);
     }
-    servo.detach();
-  }
-  else if (pinValue1 == 1)
-  {
-    servo.attach(pinServo);
-    for (pos = maxAngle; pos >= 0; pos--)
-    {
-      servo.write(pos);
-      delay(10);
-    }
-    servo.detach();
   }
 }
 
