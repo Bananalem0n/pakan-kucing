@@ -1,7 +1,7 @@
 #define BLYNK_PRINT Serial
 #define BLYNK_TEMPLATE_ID "TMPL6WTerXsMv"
 #define BLYNK_TEMPLATE_NAME "Kucing"
-#define BLYNK_AUTH_TOKEN "x157tfHtNqjX-PCk-aITZ22cgOnyLUYC"
+#define BLYNK_AUTH_TOKEN ""
 
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
