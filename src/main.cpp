@@ -6,42 +6,38 @@
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 #include <Servo.h>
+#include <WiFiManager.h>
 
-char auth[] = BLYNK_AUTH_TOKEN; // token dapat dicek di email
-char ssid[] = "..";             // nama wifi
-char pass[] = "12345678";       // password wifi
+char WiFi_SSID[] = "Esp8266-Servo";
+char WiFi_PASS[] = "default*";
+char auth[] = BLYNK_AUTH_TOKEN;
 
-Servo servo; // initiate servo class library
-int pinServo = 2; // servo pin on microcontroller
-int maxAngle = 180; // angle servo max
-
+Servo servo;
+int pinServo = 2;
+int maxAngle = 180;
 int pos = 0;
 
 BlynkTimer timer;
 
+WiFiManager wifiManager;
+
 BLYNK_CONNECTED() {
-   Blynk.syncVirtual(V1);
+  Blynk.syncVirtual(V1);
 }
 
-BLYNK_WRITE(V1)
-{
+BLYNK_WRITE(V1) {
   int pinValue1 = param.asInt();
   Serial.println(pinValue1);
-  if (pinValue1 == 0)
-  {
+  if (pinValue1 == 0) {
     servo.attach(pinServo);
-    for (pos = 0; pos <= maxAngle; pos++)
-    {
+    for (pos = 0; pos <= maxAngle; pos++) {
       servo.write(pos);
       delay(10);
     }
     servo.detach();
-  }
-  else if (pinValue1 == 1)
-  {
+  } else if (pinValue1 == 1) {
     servo.attach(pinServo);
-    for (pos = maxAngle; pos >= 0; pos--)
-    {
+    for (pos = maxAngle; pos >= 0; pos--) {
       servo.write(pos);
       delay(10);
     }
@@ -49,20 +45,21 @@ BLYNK_WRITE(V1)
   }
 }
 
-void sendServoAngle()
-{
-  Blynk.virtualWrite(V2, pos); // Send servo angle to virtual pin 2
+// write posisi servo di blynk app
+void sendServoAngle() {
+  Blynk.virtualWrite(V2, pos);
 }
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
-  Blynk.begin(auth, ssid, pass);
-  timer.setInterval(5000L, sendServoAngle); // Set timer to trigger every 5 seconds
+
+  wifiManager.autoConnect(WiFi_SSID,WiFi_PASS);
+
+  Blynk.begin(auth, WiFi.SSID().c_str(), WiFi.psk().c_str());
+  timer.setInterval(5000L, sendServoAngle);
 }
 
-void loop()
-{
+void loop() {
   Blynk.run();
-  timer.run(); // Run Blynk timer
+  timer.run();
 }
